@@ -7,7 +7,7 @@ public class LRUEvictionPolicy<K> implements EvictionPolicy<K> {
 
     private final int initialCapacity;
     private final float loadFactor = 0.75f; // map to resize itself once 75% full
-    private final boolean accessOrder = true; // reorder map when access operation occurs
+    private final boolean accessOrder = true; // reorder map when access operation occurs - head the eldest, tail the youngest
 
     // value is boolean for placeholder sake. no specific meaning
     // for more info - https://docs.oracle.com/javase/8/docs/api/java/util/LinkedHashMap.html#LinkedHashMap-int-float-boolean-
@@ -36,7 +36,10 @@ public class LRUEvictionPolicy<K> implements EvictionPolicy<K> {
     @Override
     public K evict() {
         if(tracker.isEmpty()) return null;
-        return tracker.keySet().iterator().next();
+
+        K eldest =  tracker.keySet().iterator().next();
+        tracker.remove(eldest);
+        return eldest;
     }
 
     @Override

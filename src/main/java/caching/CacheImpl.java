@@ -14,46 +14,49 @@ public class CacheImpl<K,V> implements Cache<K,V> {
     private int cacheMissCount = 0;
 
     public CacheImpl(int maxCapacity, EvictionPolicy<K> evictionPolicy) {
+        if(maxCapacity < 1) throw new IllegalArgumentException("Invalid maxCapacity argument. value should be >= 1");
+        if(evictionPolicy == null) throw new IllegalArgumentException("Eviction policy cannot be null");
         this.maxCapacity = maxCapacity;
         this.evictionPolicy = evictionPolicy;
     }
 
     @Override
     public V get(K key) {
-        V value = cache.get(key); 
-
-        if(value == null) {
+        if(!cache.containsKey(key)) {
             cacheMissCount ++;
             return null;
         }
     
         cacheHitCount ++;
         evictionPolicy.onAccess(key);
-        return value;
+        return cache.get(key);
     }
 
     @Override
     public void put(K key, V value) {
 
-        if(cache.containsKey(key)) { 
-            evictionPolicy.onAccess(key); 
+        if(cache.containsKey(key)) {
+            cache.put(key, value);
+            evictionPolicy.onAccess(key);
+            return; 
         }
-        else {
-            if(cache.size() >= maxCapacity) {
-                K toBeEvicted = evictionPolicy.evict();
-                if(toBeEvicted != null) {
-                    cache.remove(toBeEvicted);
-                    evictionPolicy.onRemove(toBeEvicted);
-                }
+
+        if(cache.size() >= maxCapacity) {
+            K toBeEvicted = evictionPolicy.evict();
+            if(toBeEvicted != null) {
+                cache.remove(toBeEvicted);
             }
-            evictionPolicy.onInsert(key);
         }
+
         cache.put(key, value);
+        evictionPolicy.onInsert(key);
     }
 
     @Override
     public V remove(K key) {
-        evictionPolicy.onRemove(key);
+        if (cache.containsKey(key)) {
+            evictionPolicy.onRemove(key);
+        }
         return cache.remove(key);
     }
 
