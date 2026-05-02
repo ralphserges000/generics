@@ -2,10 +2,10 @@
 
 ## Background
 This is an exercise on implementing my own cache with various eviction policies.ß
- * LRU (Least Recent Used) ----- remove item that hasnt been accessed in the longest time (period bw last accessed till now)
- * FIFO (First In, First Out) -- remove item that first arrive regardless of the last accessed time. (queue)
- * [pending] TTL (Time To Live) ---------- remove item that have expired based on age. i.e age > 5 hours, 5 day etc
- * [pending] LFU (Least Frequently Used) - remove item that used least often overall (total time accessed)
+ * LRU (Least Recent Used)
+ * FIFO (First In, First Out) 
+ * [pending] TTL (Time To Live) 
+ * [pending] LFU (Least Frequently Used)
 
 
 ## Features
