@@ -1,9 +1,9 @@
-package eviction_policy;
+package caching.internal.eviction;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class FIFOEvictionPolicy<K>implements EvictionPolicy<K> {
+public class FIFOEvictionPolicy<K> implements EvictionPolicy<K> {
 
     private final float loadFactor = 0.75f; // map to resize itself once 75% full
     private final boolean accessOrder = false; // insertion order retains - head the eldest, tail the youngest

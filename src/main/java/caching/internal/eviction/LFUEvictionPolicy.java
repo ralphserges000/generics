@@ -1,4 +1,4 @@
-package eviction_policy;
+package caching.internal.eviction;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

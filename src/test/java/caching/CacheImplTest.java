@@ -3,16 +3,17 @@ package caching;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import eviction_policy.LRUEvictionPolicy;
-
 public class CacheImplTest {
 
     @Test
-    void test_constructor_validation() {
+    void test_cache_factory_validation() {
         Assertions.assertAll(
-            "constructor validation",
-            () -> Assertions.assertThrows(IllegalArgumentException.class, () -> new CacheImpl<>(-3, null)),
-            () -> Assertions.assertThrows(IllegalArgumentException.class, () -> new CacheImpl<>(1, null)),
-            () -> Assertions.assertDoesNotThrow(() -> new CacheImpl<>(1, new LRUEvictionPolicy<>(1))));
+            "cache factory validation",
+            () -> Assertions.assertThrows(IllegalArgumentException.class, () -> CacheFactory.lru(-3)),
+            () -> Assertions.assertThrows(IllegalArgumentException.class, () -> CacheFactory.ttl(1, 0)),
+            () -> Assertions.assertDoesNotThrow(() -> CacheFactory.lru(1)),
+            () -> Assertions.assertDoesNotThrow(() -> CacheFactory.fifo(1)),
+            () -> Assertions.assertDoesNotThrow(() -> CacheFactory.ttl(1, 1)),
+            () -> Assertions.assertDoesNotThrow(() -> CacheFactory.lfu(1)));
     }
 }

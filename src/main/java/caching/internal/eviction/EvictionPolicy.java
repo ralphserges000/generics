@@ -1,4 +1,4 @@
-package eviction_policy;
+package caching.internal.eviction;
 
 public interface EvictionPolicy<K> {
     void onInsert(K key);

@@ -3,9 +3,9 @@ package caching;
 import java.util.HashMap;
 import java.util.Map;
 
-import eviction_policy.EvictionPolicy;
+import caching.internal.eviction.EvictionPolicy;
 
-public class CacheImpl<K,V> implements Cache<K,V> {
+class CacheImpl<K,V> implements Cache<K,V> {
 
     private final int maxCapacity;
     private final EvictionPolicy<K> evictionPolicy;
