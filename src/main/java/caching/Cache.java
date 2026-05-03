@@ -6,4 +6,5 @@ public interface Cache<K,V> {
     V remove(K key);
     void clear();
     int size();
+    double getCacheHitRatio();
 }

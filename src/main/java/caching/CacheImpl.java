@@ -79,6 +79,7 @@ class CacheImpl<K,V> implements Cache<K,V> {
     }
 
     // the higher the ratio, the more effective our cache is since it is able to provide contain frequently accessed data
+    @Override
     public synchronized double getCacheHitRatio() {
         int totalRequest = cacheHitCount + cacheMissCount;
         if(totalRequest == 0) return 0.0;
