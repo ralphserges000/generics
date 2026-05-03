@@ -7,4 +7,6 @@ public interface EvictionPolicy<K> {
     K evict();
     void clear();
     int size();
+
+    default boolean isExpired(K key) { return false; }
 }

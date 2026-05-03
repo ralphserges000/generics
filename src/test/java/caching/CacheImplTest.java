@@ -15,6 +15,4 @@ public class CacheImplTest {
             () -> Assertions.assertThrows(IllegalArgumentException.class, () -> new CacheImpl<>(1, null)),
             () -> Assertions.assertDoesNotThrow(() -> new CacheImpl<>(1, new LRUEvictionPolicy<>(1))));
     }
-
-    
 }

@@ -5,16 +5,13 @@ import java.util.Map;
 
 public class FIFOEvictionPolicy<K>implements EvictionPolicy<K> {
 
-    private final int initialCapacity;
     private final float loadFactor = 0.75f; // map to resize itself once 75% full
     private final boolean accessOrder = false; // insertion order retains - head the eldest, tail the youngest
     private final Map<K,Boolean> queue;
 
     public FIFOEvictionPolicy(int initialCapacity) {
-        this.initialCapacity = initialCapacity;
         this.queue = new LinkedHashMap<>(initialCapacity, loadFactor, accessOrder);
     }
-
 
     @Override
     public void onInsert(K key) {
@@ -22,9 +19,7 @@ public class FIFOEvictionPolicy<K>implements EvictionPolicy<K> {
     }
 
     @Override
-    public void onAccess(K key) {
-        queue.get(key);
-    }
+    public void onAccess(K key) {}
 
     @Override
     public void onRemove(K key) {

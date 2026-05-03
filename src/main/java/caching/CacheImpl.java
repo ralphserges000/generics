@@ -21,23 +21,30 @@ public class CacheImpl<K,V> implements Cache<K,V> {
     }
 
     @Override
-    public V get(K key) {
+    public synchronized V get(K key) {
         if(!cache.containsKey(key)) {
             cacheMissCount ++;
             return null;
         }
-    
+
+        if(this.evictionPolicy.isExpired(key)) {
+            cache.remove(key);
+            this.evictionPolicy.onRemove(key);
+            cacheMissCount ++;
+            return null;
+        }
+
         cacheHitCount ++;
         evictionPolicy.onAccess(key);
         return cache.get(key);
     }
 
     @Override
-    public void put(K key, V value) {
+    public synchronized void put(K key, V value) {
 
         if(cache.containsKey(key)) {
             cache.put(key, value);
-            evictionPolicy.onAccess(key);
+            evictionPolicy.onInsert(key);
             return; 
         }
 
@@ -53,7 +60,7 @@ public class CacheImpl<K,V> implements Cache<K,V> {
     }
 
     @Override
-    public V remove(K key) {
+    public synchronized V remove(K key) {
         if (cache.containsKey(key)) {
             evictionPolicy.onRemove(key);
         }
@@ -61,18 +68,18 @@ public class CacheImpl<K,V> implements Cache<K,V> {
     }
 
     @Override
-    public void clear() {
+    public synchronized void clear() {
         evictionPolicy.clear();
         cache.clear();
     }
 
     @Override
-    public int size() {
+    public synchronized int size() {
         return cache.size();
     }
 
     // the higher the ratio, the more effective our cache is since it is able to provide contain frequently accessed data
-    public double getCacheHitRatio() {
+    public synchronized double getCacheHitRatio() {
         int totalRequest = cacheHitCount + cacheMissCount;
         if(totalRequest == 0) return 0.0;
         return (double) cacheHitCount / totalRequest;

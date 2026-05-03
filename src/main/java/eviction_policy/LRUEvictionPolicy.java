@@ -5,7 +5,6 @@ import java.util.Map;
 
 public class LRUEvictionPolicy<K> implements EvictionPolicy<K> {
 
-    private final int initialCapacity;
     private final float loadFactor = 0.75f; // map to resize itself once 75% full
     private final boolean accessOrder = true; // reorder map when access operation occurs - head the eldest, tail the youngest
 
@@ -14,7 +13,6 @@ public class LRUEvictionPolicy<K> implements EvictionPolicy<K> {
     private final Map<K, Boolean> tracker;
 
     public LRUEvictionPolicy(int initialCapacity) {
-        this.initialCapacity = initialCapacity;
         this.tracker = new LinkedHashMap<>(initialCapacity, loadFactor, accessOrder); 
     }
 
@@ -51,5 +49,4 @@ public class LRUEvictionPolicy<K> implements EvictionPolicy<K> {
     public int size() {
         return tracker.size();
     }
-
 }

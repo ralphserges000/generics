@@ -4,8 +4,8 @@
 This is an exercise on implementing my own cache with various eviction policies.ß
  * LRU (Least Recent Used)
  * FIFO (First In, First Out) 
- * [pending] TTL (Time To Live) 
- * [pending] LFU (Least Frequently Used)
+ * TTL (Time To Live) 
+ * LFU (Least Frequently Used)
 
 
 ## Features
